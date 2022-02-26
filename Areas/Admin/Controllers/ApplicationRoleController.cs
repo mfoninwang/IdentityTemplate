@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
@@ -41,6 +42,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
+        [Authorize(Policy = "RequireAdministratorRole")]
         public IActionResult Create()
         {
             return View();
@@ -51,6 +53,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)

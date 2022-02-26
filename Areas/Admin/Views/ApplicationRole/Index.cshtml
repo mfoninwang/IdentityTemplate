@@ -1,4 +1,6 @@
-﻿@model IEnumerable<WebApplication1.Models.ApplicationRole>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model IEnumerable<WebApplication1.Models.ApplicationRole>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,7 +13,10 @@
                 <h4>Role List</h4>
             </div>
             <div class="col text-end">
-                <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                {                
+                    <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
+                }
             </div>
         </div>
     </div>

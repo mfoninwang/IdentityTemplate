@@ -25,8 +25,11 @@ builder.Services.AddControllersWithViews();
 // instance, which enforces that the current user is authenticated.
 builder.Services.AddAuthorization(options =>
 {
+    // Add policy
+    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("SUPER_ADMIN"));
+
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
+        .RequireAuthenticatedUser() 
         .Build();
 });
 
