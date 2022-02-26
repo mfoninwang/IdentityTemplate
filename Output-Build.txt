@@ -1,0 +1,10 @@
+﻿Build started...
+1>------ Build started: Project: WebApplication1, Configuration: Debug Any CPU ------
+1>C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\Models\ApplicationUser.cs(22,46,22,55): warning CS8618: Non-nullable property 'UserRoles' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+1>C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\Models\ApplicationUser.cs(23,63,23,69): warning CS8618: Non-nullable property 'Claims' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+1>C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\Models\ApplicationUser.cs(24,63,24,69): warning CS8618: Non-nullable property 'Logins' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+1>C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\Models\ApplicationUser.cs(25,63,25,69): warning CS8618: Non-nullable property 'Tokens' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
+1>C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\Areas\Identity\Pages\Account\Register.cshtml(52,59,52,79): warning CS8602: Dereference of a possibly null reference.
+1>WebApplication1 -> C:\Users\minwang\OneDrive - DXC Production\Documents\Visual Studio 2022\WebApplication1\bin\Debug\net6.0\WebApplication1.dll
+1>Done building project "WebApplication1.csproj".
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

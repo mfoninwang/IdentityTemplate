@@ -1,0 +1,78 @@
+﻿@model IEnumerable<WebApplication1.Models.ApplicationRole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mt-4 mb-4">
+    <div class="card-header">
+        <div id="actions" class="row">
+            <div class="col-2">
+                <h4>Role List</h4>
+            </div>
+            <div class="col text-end">
+                <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table id="table" class="table table-striped table-bordered table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NormalizedName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreateDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NormalizedName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateDate)
+                        </td>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts
+{
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function()
+    {
+        $('#table').DataTable( {
+            "lengthChange":false,
+            "pageLength":10,
+            "searching": false
+        } );
+    });
+</script>
+}
