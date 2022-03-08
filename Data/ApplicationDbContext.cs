@@ -12,6 +12,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     {
     }
 
+    public DbSet<Permission> Permissions { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         // Customize the ASP.NET Identity model and override the defaults if needed.
@@ -20,33 +22,23 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
         base.OnModelCreating(builder);
 
-        builder.Entity<IdentityRoleClaim<int>>(b =>
+        builder.Entity<IdentityRoleClaim<string>>(b =>
         {
             b.ToTable("RoleClaim");
         });
 
-        builder.Entity<ApplicationRole>(b =>
+        builder.Entity<IdentityUserClaim<string>>(b =>
         {
-            b.ToTable("Role");
-        });
-
-        builder.Entity<IdentityUserClaim<int>>(b =>
-        {
+            b.HasKey(x => new { x.Id });
             b.ToTable("UserClaim");
         });
 
-        builder.Entity<IdentityUserRole<string>>(b =>
+        builder.Entity<UserRole>(b =>
         {
             // Primary key
             //b.HasKey(r => new { r.UserId, r.RoleId });
             b.ToTable("UserRole");
         });
-
-        builder.Entity<ApplicationUser>(b =>
-        {
-            b.ToTable("User");
-        });
-
 
         builder.Entity<ApplicationUser>(b =>
         {
@@ -72,22 +64,35 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                 .IsRequired();
 
             // Each User can have many entries in the UserRole join table
-            b.HasMany(e => e.UserRoles)
+            b.HasMany(e => e.Roles)
                 .WithOne()
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
         });
 
-
         builder.Entity<ApplicationRole>(b =>
         {
+            b.ToTable("Role");
+
             // Each Role can have many entries in the UserRole join table
-            b.HasMany(e => e.UserRoles)
+            b.HasMany(e => e.Users)
                 .WithOne(e => e.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
         });
 
-    }
+        builder.Entity<IdentityUserLogin<string>>(b =>
+        {
+            // Primary key
+            b.HasKey(x=> new {x.LoginProvider,x.ProviderKey});
+            b.ToTable("UserLogIn");
+        });
 
+        builder.Entity<IdentityUserToken<string>>(b =>
+        {
+            // Primary key
+            b.HasKey(x => new { x.LoginProvider, x.UserId, x.Name });
+            b.ToTable("UserToken");
+        });
+    }
 }

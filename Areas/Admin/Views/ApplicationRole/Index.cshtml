@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
+@using WebApplication1.Filters
+@using WebApplication1.Models
 @inject IAuthorizationService AuthorizationService
 @model IEnumerable<WebApplication1.Models.ApplicationRole>
 
@@ -13,7 +15,7 @@
                 <h4>Role List</h4>
             </div>
             <div class="col text-end">
-                @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministratorRole")).Succeeded)
+                @if ((await AuthorizationService.AuthorizeAsync(User, Model, "PermissionPolicy")).Succeeded)
                 {                
                     <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
                 }

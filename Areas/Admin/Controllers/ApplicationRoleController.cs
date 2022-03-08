@@ -1,9 +1,11 @@
 ﻿#nullable disable
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
+using WebApplication1.Filters;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {
@@ -11,16 +13,22 @@ namespace WebApplication1.Areas.Admin.Controllers
     public class ApplicationRoleController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationRoleController(ApplicationDbContext context)
+        public ApplicationRoleController(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
 
         // GET: Admin/ApplicationRole
+        [Authorize(Policy = "PermissionPolicy")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles.ToListAsync());
+            var roles = await _roleManager.Roles.ToListAsync();
+            return View(roles);
+
+            //return View(await _context.Roles.ToListAsync());
         }
 
         // GET: Admin/ApplicationRole/Details/5
@@ -42,7 +50,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
-        [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Policy = "PermissionPolicy")]
         public IActionResult Create()
         {
             return View();
@@ -53,7 +61,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "RequireAdministratorRole")]
+        [Authorize(Policy = "PermissionPolicy")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)
@@ -62,6 +70,8 @@ namespace WebApplication1.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
             return View(applicationRole);
         }
 
@@ -114,35 +124,6 @@ namespace WebApplication1.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(applicationRole);
-        }
-
-        // GET: Admin/ApplicationRole/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var applicationRole = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (applicationRole == null)
-            {
-                return NotFound();
-            }
-
-            return View(applicationRole);
-        }
-
-        // POST: Admin/ApplicationRole/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var applicationRole = await _context.Roles.FindAsync(id);
-            _context.Roles.Remove(applicationRole);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool ApplicationRoleExists(string id)
