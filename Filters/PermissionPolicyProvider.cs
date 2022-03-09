@@ -14,13 +14,13 @@ namespace WebApplication1.Filters
         public Task<AuthorizationPolicy> GetDefaultPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();     
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-            if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
-            {
+            //if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
+            //{
                 var policy = new AuthorizationPolicyBuilder();
                 policy.AddRequirements(new PermissionRequirement(policyName));
                 return Task.FromResult(policy.Build());
-            }
-            return FallbackPolicyProvider.GetPolicyAsync(policyName);
+            //}
+            //return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
         public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
     }

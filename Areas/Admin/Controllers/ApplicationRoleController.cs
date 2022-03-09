@@ -10,6 +10,7 @@ using WebApplication1.Filters;
 namespace WebApplication1.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ApplicationRoleController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +23,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole
-        [Authorize(Policy = "PermissionPolicy")]
+        [Authorize(Policy = "ROLE_VIEW")]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
@@ -50,7 +51,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
-        [Authorize(Policy = "PermissionPolicy")]
+        [Authorize(Policy = "ROLE_CREATE")]
         public IActionResult Create()
         {
             return View();
@@ -61,7 +62,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "PermissionPolicy")]
+        [Authorize(Policy = "ROLE_CREATE")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)

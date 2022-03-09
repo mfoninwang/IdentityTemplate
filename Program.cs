@@ -12,30 +12,21 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationDbC
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
+
 // RequireAuthenticatedUser adds DenyAnonymousAuthorizationRequirement to the current
 // instance, which enforces that the current user is authenticated.
-string[] roles = { "Super Administrator" };
-string[] allPermissions = new string[] { "ROLE_VIEW", "ROLE_CREATE" };
-
 builder.Services.AddAuthorization(options =>
 {
-    // Add policy
-    options.AddPolicy("PermissionPolicy", policy =>
-    {
-        policy.RequireClaim("Permission", allPermissions);
-        //policy.Requirements.Add(new PermissionRequirement("ROLE_CREATE"));
-    });
-
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
@@ -52,15 +43,16 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
-var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
-
-//await DefaultRoles.SeedAsync(userManager, roleManager);
-await DefaultUsers.SeedBasicUserAsync(userManager, roleManager);
-await DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
+    //await DefaultRoles.SeedAsync(userManager, roleManager);
+    await DefaultUsers.SeedBasicUserAsync(userManager, roleManager);
+    await DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
+}
 
 
 app.UseHttpsRedirection();
@@ -69,7 +61,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.UseEndpoints(endpoints =>
 {
@@ -85,9 +76,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapRazorPages();
-
-
-
-
-
 app.Run();
