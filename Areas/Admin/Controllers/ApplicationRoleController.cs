@@ -23,7 +23,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole
-        [Authorize(Policy = "ROLE_VIEW")]
+        [Authorize(Policy = "PERMISSION.ROLE.VIEW")]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
@@ -51,18 +51,16 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
-        [Authorize(Policy = "ROLE_CREATE")]
+        [Authorize(Policy = "PERMISSION.ROLE.CREATE")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Admin/ApplicationRole/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "ROLE_CREATE")]
+        [Authorize(Policy = "PERMISSION.ROLE.CREATE")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)
@@ -71,7 +69,6 @@ namespace WebApplication1.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
 
             return View(applicationRole);
         }

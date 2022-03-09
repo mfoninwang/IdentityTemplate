@@ -15,7 +15,7 @@
                 <h4>Role List</h4>
             </div>
             <div class="col text-end">
-                @if ((await AuthorizationService.AuthorizeAsync(User, "ROLE_CREATE")).Succeeded)
+                @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.ROLE.CREATE")).Succeeded)
                 {                
                     <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
                 }
