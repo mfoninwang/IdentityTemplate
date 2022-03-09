@@ -23,7 +23,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole
-        [Authorize(Policy = "PERMISSION.ROLE.VIEW")]
+        [Authorize(Policy = "PERMISSION.ROLE.LIST")]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
