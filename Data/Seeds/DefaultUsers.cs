@@ -63,7 +63,7 @@ namespace WebApplication1.Data.Seeds
         public static async Task AddPermissionClaim(this RoleManager<ApplicationRole> roleManager, ApplicationRole role, string module)
         {
             var allClaims = await roleManager.GetClaimsAsync(role);
-            var allPermissions = new string[] { "ROLE_VIEW", "ROLE_CREATE" }; //Permissions.GeneratePermissionsForModule(module);
+            var allPermissions = new string[] { "PERMISSION.ROLE.LIST", "PERMISSION.ROLE.CREATE" }; //Permissions.GeneratePermissionsForModule(module);
 
             foreach (var permission in allPermissions)
             {

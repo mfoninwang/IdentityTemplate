@@ -49,7 +49,11 @@ using (var scope = app.Services.CreateScope())
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
+    var appDbContext = services.GetRequiredService<ApplicationDbContext>();
+
+
     //await DefaultRoles.SeedAsync(userManager, roleManager);
+    await DefaultPermissions.SeedAsync(appDbContext);
     await DefaultUsers.SeedBasicUserAsync(userManager, roleManager);
     await DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
 }

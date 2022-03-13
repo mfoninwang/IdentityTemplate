@@ -9,8 +9,8 @@ namespace WebApplication1.Data.Seeds
         { 
             List<Permission> permissions = new()
             {
-                new Permission() { Name = "ROLE_VIEW", Code ="ROLE_VIEW",Entity="ROLE"},
-                new Permission() { Name = "ROLE_CREATE", Code ="ROLE_CREATE",Entity="ROLE"}
+                new Permission() { Name = "PERMISSION.ROLE.LIST", Code = "PERMISSION.ROLE.LIST", Entity="ROLE"},
+                new Permission() { Name = "PERMISSION.ROLE.CREATE", Code = "PERMISSION.ROLE.CREATE", Entity="ROLE"}
             };
 
             await context.Permissions.AddRangeAsync(permissions);
