@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Data.Seeds;
 using WebApplication1.Filters;
-using WebApplication1.Models;
+using WebApplication1.Entities;
+using WebApplication1.Extenstions;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
@@ -22,6 +23,9 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultUI()
             .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, 
+    ApplicationUserClaimsPrincipalFactory>();
 
 // RequireAuthenticatedUser adds DenyAnonymousAuthorizationRequirement to the current
 // instance, which enforces that the current user is authenticated.

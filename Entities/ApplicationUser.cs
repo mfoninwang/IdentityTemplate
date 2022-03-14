@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models
+namespace WebApplication1.Entities
 {
 
     // Add profile data for application users by adding properties to the ApplicationUser class

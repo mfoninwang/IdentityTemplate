@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Entities;
 using WebApplication1.Models;
 
 namespace WebApplication1.Data;
@@ -14,6 +15,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
     public DbSet<Permission> Permissions { get; set; }
 
+    public DbSet<RolePermission> RolePermissions { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         // Customize the ASP.NET Identity model and override the defaults if needed.
@@ -21,6 +24,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         // Add your customizations after calling base.OnModelCreating(builder);
 
         base.OnModelCreating(builder);
+
+        builder.Entity<Permission>(b =>
+        {
+            b.ToTable("Permission");
+            // Primary key
+            b.HasIndex(c=>c.Code).IsUnique();
+
+            b.HasMany(e => e.Roles)
+            .WithOne(p=>p.Permission)
+            .HasForeignKey(ur => ur.PermissionId)
+            .IsRequired();
+        });
+
+        builder.Entity<RolePermission>(b =>
+        {
+            b.ToTable("RolePermission");
+            // Primary key
+            b.HasKey(r => new { r.PermissionId, r.RoleId });
+
+        });
 
         builder.Entity<IdentityRoleClaim<string>>(b =>
         {
@@ -79,6 +102,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                 .WithOne(e => e.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
+            b.HasMany(e => e.Permissions)
+            .WithOne(e => e.Role)
+            .HasForeignKey(ur => ur.RoleId)
+            .IsRequired();
         });
 
         builder.Entity<IdentityUserLogin<string>>(b =>

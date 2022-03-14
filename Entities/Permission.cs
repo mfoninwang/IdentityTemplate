@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Models
+namespace WebApplication1.Entities
 {
     [Table("Permission")]
     public class Permission
@@ -20,7 +20,7 @@ namespace WebApplication1.Models
         [Required]
         public string Entity { get; set; }
 
-        // Navigation Properties
-        //public virtual ICollection<ApplicationRole>? Roles { get; set; }
+        //Navigation Properties
+        public virtual ICollection<RolePermission>? Roles { get; set; }
     }
 }

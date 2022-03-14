@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using WebApplication1.Entities;
 using WebApplication1.Enums;
-using WebApplication1.Models;
 
 namespace WebApplication1.Data.Seeds
 {
@@ -17,14 +17,14 @@ namespace WebApplication1.Data.Seeds
 
             await roleManager.CreateAsync(new ApplicationRole
             {
-                Id= Roles.Admin.ToString(),
+                Id = Roles.Admin.ToString(),
                 Name = Roles.Admin.ToString(),
                 NormalizedName = Roles.Admin.ToString()
             });
 
             await roleManager.CreateAsync(new ApplicationRole
             {
-                Id= Roles.Basic.ToString(),
+                Id = Roles.Basic.ToString(),
                 Name = Roles.Basic.ToString(),
                 NormalizedName = Roles.Basic.ToString()
             });

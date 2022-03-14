@@ -1,16 +1,15 @@
 ﻿#nullable disable
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
-using WebApplication1.Models;
+using WebApplication1.Entities;
 using WebApplication1.Filters;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Permission("PERMISSION.ROLE.LIST")]
     public class ApplicationRoleController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,13 +22,10 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole
-        [Authorize(Policy = "PERMISSION.ROLE.LIST")]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();
             return View(roles);
-
-            //return View(await _context.Roles.ToListAsync());
         }
 
         // GET: Admin/ApplicationRole/Details/5
@@ -51,7 +47,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
-        [Authorize(Policy = "PERMISSION.ROLE.CREATE")]
+        [Permission("PERMISSION.ROLE.CREATE")]
         public IActionResult Create()
         {
             return View();
@@ -60,7 +56,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         // POST: Admin/ApplicationRole/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "PERMISSION.ROLE.CREATE")]
+        [Permission("PERMISSION.ROLE.CREATE")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)
@@ -73,7 +69,6 @@ namespace WebApplication1.Areas.Admin.Controllers
             return View(applicationRole);
         }
 
-        // GET: Admin/ApplicationRole/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -89,9 +84,6 @@ namespace WebApplication1.Areas.Admin.Controllers
             return View(applicationRole);
         }
 
-        // POST: Admin/ApplicationRole/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
 
-namespace WebApplication1.Models
+namespace WebApplication1.Entities
 {
     public class UserRole : IdentityUserRole<string>
     {

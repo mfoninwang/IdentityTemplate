@@ -2,7 +2,7 @@
 @using WebApplication1.Filters
 @using WebApplication1.Models
 @inject IAuthorizationService AuthorizationService
-@model IEnumerable<WebApplication1.Models.ApplicationRole>
+@model IEnumerable<WebApplication1.Entities.ApplicationRole>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,13 +10,13 @@
 
 <div class="card mt-4 mb-4">
     <div class="card-header">
-        <div id="actions" class="row"> 
+        <div id="actions" class="row">
             <div class="col-2">
                 <h4>Role List</h4>
             </div>
             <div class="col text-end">
                 @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.ROLE.CREATE")).Succeeded)
-                {                
+                {
                     <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
                 }
             </div>
