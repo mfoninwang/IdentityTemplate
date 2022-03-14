@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Entities
 {
-
     // Add profile data for application users by adding properties to the ApplicationUser class
     [Table("User")]
     public class ApplicationUser : IdentityUser
@@ -11,6 +10,15 @@ namespace WebApplication1.Entities
         public string? LastName { get; set; }
 
         public string? FirstName { get; set; }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
 
         public string? TaxOffice { get; set; }
 

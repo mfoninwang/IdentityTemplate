@@ -68,6 +68,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
             // Map to Table in the database
             b.ToTable("User");
 
+            b.Ignore(x => x.FullName);
+
             // Each User can have many UserClaims
             b.HasMany(e => e.Claims)
                 .WithOne()
