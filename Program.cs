@@ -6,6 +6,7 @@ using WebApplication1.Data.Seeds;
 using WebApplication1.Entities;
 using WebApplication1.Extenstions;
 using WebApplication1.Filters;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbConnection");
@@ -18,15 +19,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
 builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
+    ApplicationUserClaimsPrincipalFactory>();
+
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
-    .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>()
     .AddDefaultTokenProviders();
 
-//builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, 
-//    ApplicationUserClaimsPrincipalFactory>();
+
 
 // RequireAuthenticatedUser adds DenyAnonymousAuthorizationRequirement to the current
 // instance, which enforces that the current user is authenticated.

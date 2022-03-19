@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using WebApplication1.Data;
-using WebApplication1.Entities;
+﻿using System.Security.Claims;
 
 namespace WebApplication1.Extenstions
 {
@@ -30,13 +26,16 @@ namespace WebApplication1.Extenstions
 
         public static bool HasPermission(this ClaimsPrincipal principal, string permission)
         {
-            return principal.Claims.Any(x=>x.Type=="Permission" && x.Value== permission);
+            return principal.Claims.Any(x => x.Type == "Permission" && x.Value == permission);
         }
 
         public static IEnumerable<string> Permissions(this ClaimsPrincipal principal)
         {
-            throw new NotImplementedException();
+            var permissions = (from p in principal.Claims 
+                               where p.Type =="Permission"                              
+                               select p.Value).ToList();
 
+            return permissions;
         }
 
         public static bool IsCurrentUser(this ClaimsPrincipal principal, string id)

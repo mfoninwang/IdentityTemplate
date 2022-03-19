@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using WebApplication1.Data;
 using WebApplication1.Extenstions;
 
 namespace WebApplication1.Filters
@@ -21,8 +18,8 @@ namespace WebApplication1.Filters
         {
             var user = context.HttpContext.User;
 
-            if (user.Identity.Name == "superadmin@gmail.com") return;
-            
+            if (user.Identity?.Name == "superadmin@gmail.com") return;
+
             if (user.HasPermission(this.Permission)) return;
 
             context.Result = new UnauthorizedResult();

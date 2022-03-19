@@ -4,7 +4,7 @@ using System.Security.Claims;
 using WebApplication1.Data;
 using WebApplication1.Entities;
 
-namespace WebApplication1.Extenstions
+namespace WebApplication1.Services
 {
     public class ApplicationUserClaimsPrincipalFactory
         : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
@@ -52,7 +52,7 @@ namespace WebApplication1.Extenstions
             {
                 new Claim(ClaimTypes.GivenName, user.FirstName??String.Empty),
                 new Claim(ClaimTypes.Surname, user.LastName??String.Empty),
-                new Claim("TenantId", "TenantId")       
+                new Claim("TenantId", "Tenant 1")       
             };
 
             foreach (var permission in GetUserPermissions(identity))
@@ -65,10 +65,9 @@ namespace WebApplication1.Extenstions
             return identity;
         }
 
-
         private IEnumerable<string> GetUserPermissions(ClaimsIdentity identity)
         {
-            var db = _httpContext.HttpContext.RequestServices.GetService<ApplicationDbContext>();
+            var db = _httpContext.HttpContext?.RequestServices.GetService<ApplicationDbContext>();
 
             var usersRoles = identity.Claims   
                 .Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value)
@@ -77,7 +76,6 @@ namespace WebApplication1.Extenstions
             IEnumerable<string> permissions = (from p in db.RolePermissions
                                                where usersRoles.Contains(p.RoleId)
                                                select p.Permission.Code).Distinct().ToList();
-
             return permissions;
         }
     }

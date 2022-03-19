@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using WebApplication1.Filters;
 namespace WebApplication1.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Permission("PERMISSION.ROLE.LIST")]
+    [Authorize(Policy = "PERMISSION.ROLE.LIST")]
     public class ApplicationRoleController : Controller
     {
         private readonly ApplicationDbContext _context;
