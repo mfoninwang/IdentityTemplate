@@ -18,11 +18,14 @@ namespace WebApplication1.Filters
             if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
             {
                 var policy = new AuthorizationPolicyBuilder();
+
                 policy.AddRequirements(new PermissionRequirement(policyName));
+
                 return Task.FromResult(policy.Build());
             }
             return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
+
         public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
     }
 }

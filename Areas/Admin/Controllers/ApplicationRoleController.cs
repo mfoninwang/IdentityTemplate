@@ -57,7 +57,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         // POST: Admin/ApplicationRole/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Permission("PERMISSION.ROLE.CREATE")]
+        [Authorize(Policy = "PERMISSION.ROLE.CREATE")]
         public async Task<IActionResult> Create([Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
             if (ModelState.IsValid)
