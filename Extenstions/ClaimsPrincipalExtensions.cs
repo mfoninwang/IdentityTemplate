@@ -30,16 +30,13 @@ namespace WebApplication1.Extenstions
 
         public static bool HasPermission(this ClaimsPrincipal principal, string permission)
         {
-            return false;
+            return principal.Claims.Any(x=>x.Type=="Permission" && x.Value== permission);
         }
 
         public static IEnumerable<string> Permissions(this ClaimsPrincipal principal)
         {
-            string[] permissions = new string[]
-            {
-                "PERMISSION.ROLE.LIST"
-            };
-            return permissions.ToList();
+            throw new NotImplementedException();
+
         }
 
         public static bool IsCurrentUser(this ClaimsPrincipal principal, string id)

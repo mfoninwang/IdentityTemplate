@@ -8,7 +8,7 @@ using WebApplication1.Extenstions;
 using WebApplication1.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));

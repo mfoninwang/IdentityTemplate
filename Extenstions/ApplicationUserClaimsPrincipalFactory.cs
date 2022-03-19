@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using WebApplication1.Data;
@@ -7,7 +6,7 @@ using WebApplication1.Entities;
 
 namespace WebApplication1.Extenstions
 {
-    public class ApplicationUserClaimsPrincipalFactory 
+    public class ApplicationUserClaimsPrincipalFactory
         : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
     {
         private readonly IHttpContextAccessor _httpContext;
@@ -28,15 +27,15 @@ namespace WebApplication1.Extenstions
 
             if (!string.IsNullOrWhiteSpace(user.FirstName))
             {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] 
-                {       
-                    new Claim(ClaimTypes.GivenName, user.FirstName)  
+                ((ClaimsIdentity)principal.Identity).AddClaims(new[]
+                {
+                    new Claim(ClaimTypes.GivenName, user.FirstName)
                 });
             }
 
             if (!string.IsNullOrWhiteSpace(user.LastName))
             {
-                ((ClaimsIdentity)principal.Identity).AddClaims(new[] 
+                ((ClaimsIdentity)principal.Identity).AddClaims(new[]
                 {
                     new Claim(ClaimTypes.Surname, user.LastName),
                 });
@@ -49,11 +48,37 @@ namespace WebApplication1.Extenstions
         {
             var identity = await base.GenerateClaimsAsync(user);
 
-            identity.AddClaim(new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty));
-            identity.AddClaim(new Claim(ClaimTypes.Surname, user.LastName??string.Empty));
-            identity.AddClaim(new Claim("TenantId", "Tenant1"));
+            List<Claim> userClaims = new()
+            {
+                new Claim(ClaimTypes.GivenName, user.FirstName??String.Empty),
+                new Claim(ClaimTypes.Surname, user.LastName??String.Empty),
+                new Claim("TenantId", "TenantId")       
+            };
+
+            foreach (var permission in GetUserPermissions(identity))
+            {
+                userClaims.Add(new Claim("Permission", permission));
+            }
+
+            identity.AddClaims(userClaims);
 
             return identity;
+        }
+
+
+        private IEnumerable<string> GetUserPermissions(ClaimsIdentity identity)
+        {
+            var db = _httpContext.HttpContext.RequestServices.GetService<ApplicationDbContext>();
+
+            var usersRoles = identity.Claims   
+                .Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value)
+                .ToList();
+
+            IEnumerable<string> permissions = (from p in db.RolePermissions
+                                               where usersRoles.Contains(p.RoleId)
+                                               select p.Permission.Code).Distinct().ToList();
+
+            return permissions;
         }
     }
 }

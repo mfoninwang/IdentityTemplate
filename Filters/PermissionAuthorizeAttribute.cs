@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using WebApplication1.Data;
 using WebApplication1.Extenstions;
 
@@ -16,26 +17,13 @@ namespace WebApplication1.Filters
             Permission = permission;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.User;
-            string userName = user.Identity.Name;
 
-            if (userName == "superadmin@gmail.com") return;
-
-            var db = context.HttpContext.RequestServices.GetService<ApplicationDbContext>();
-
-            var permission = db.Permissions
-                .Include(r=>r.Roles)
-                .Single(n => n.Code == this.Permission);
+            if (user.Identity.Name == "superadmin@gmail.com") return;
             
-            if (permission.Roles != null)
-            {
-                foreach (var item in permission.Roles)
-                {
-                    if (user.IsInRole(item.RoleId)) return;
-                }
-            }
+            if (user.HasPermission(this.Permission)) return;
 
             context.Result = new UnauthorizedResult();
             return;

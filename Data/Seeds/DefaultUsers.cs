@@ -50,7 +50,7 @@ namespace WebApplication1.Data.Seeds
                     await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
                 }
-                await roleManager.SeedClaimsForSuperAdmin();
+                //await roleManager.SeedClaimsForSuperAdmin();
             }
         }
 
