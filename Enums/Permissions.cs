@@ -20,6 +20,7 @@ namespace PermissionBasedTemplate.Enums
     {
         public void Test()
         {
+            
         }
     }
 }

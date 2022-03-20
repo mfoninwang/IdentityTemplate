@@ -10,7 +10,7 @@ using PermissionBasedTemplate.Identity;
 namespace PermissionBasedTemplate.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Policy = "PERMISSION.ROLE.LIST")]
+    [Authorize("ROLE.VIEW")]
     public class ApplicationRoleController : Controller
     {
         private readonly ApplicationIdentityDbContext _context;
@@ -48,7 +48,7 @@ namespace PermissionBasedTemplate.Areas.Admin.Controllers
         }
 
         // GET: Admin/ApplicationRole/Create
-        [Permission("PERMISSION.ROLE.CREATE")]
+        [Permission("ROLE.CREATE")]
         public IActionResult Create()
         {
             return View();

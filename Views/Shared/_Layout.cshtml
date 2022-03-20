@@ -32,13 +32,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.ROLE.LIST")).Succeeded)
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "ROLE.VIEW")).Succeeded)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="ApplicationRole" asp-action="Index">Roles</a>
                             </li>
                         }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.CATEGORY.LIST")).Succeeded)
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "CATEGORY.VIEW")).Succeeded)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a>

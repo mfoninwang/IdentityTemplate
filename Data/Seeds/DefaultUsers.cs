@@ -64,7 +64,7 @@ namespace PermissionBasedTemplate.Data.Seeds
         public static async Task AddPermissionClaim(this RoleManager<ApplicationRole> roleManager, ApplicationRole role, string module)
         {
             var allClaims = await roleManager.GetClaimsAsync(role);
-            var allPermissions = new string[] { "PERMISSION.ROLE.LIST", "PERMISSION.ROLE.CREATE" }; //Permissions.GeneratePermissionsForModule(module);
+            var allPermissions = new string[] { "ROLE.VIEW", "ROLE.CREATE" }; //Permissions.GeneratePermissionsForModule(module);
 
             foreach (var permission in allPermissions)
             {

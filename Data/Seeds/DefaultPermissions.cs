@@ -11,8 +11,8 @@ namespace PermissionBasedTemplate.Data.Seeds
             {
                 List<Permission> permissions = new()
                 {
-                    new Permission() { Name = "PERMISSION.ROLE.LIST", Code = "PERMISSION.ROLE.LIST", Entity = "ROLE" },
-                    new Permission() { Name = "PERMISSION.ROLE.CREATE", Code = "PERMISSION.ROLE.CREATE", Entity = "ROLE" }
+                    new Permission() { Name = "ROLE.VIEW", Code = "ROLE.VIEW", Entity = "ROLE" },
+                    new Permission() { Name = "ROLE.CREATE", Code = "ROLE.CREATE", Entity = "ROLE" }
                 };
 
                 await context.Permissions.AddRangeAsync(permissions);

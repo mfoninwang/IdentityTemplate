@@ -20,8 +20,11 @@ namespace PermissionBasedTemplate.Filters
 
             if (user.Identity?.Name == "superadmin@gmail.com") return;
 
-            if (user.HasPermission(this.Permission)) return;
+            bool hasPermission = user.HasClaim(x => x.Type == "Permission" &&
+               x.Value == this.Permission && x.Issuer == "LOCAL AUTHORITY");
 
+            if (hasPermission) return; 
+            
             context.Result = new UnauthorizedResult();
             return;
         }

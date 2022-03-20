@@ -66,7 +66,6 @@ using (var scope = app.Services.CreateScope())
     await DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
