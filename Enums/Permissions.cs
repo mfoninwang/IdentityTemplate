@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.Enums
+namespace PermissionBasedTemplate.Enums
 {
     public enum PermissionsEnum : short
     {

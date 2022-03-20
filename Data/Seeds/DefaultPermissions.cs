@@ -1,11 +1,11 @@
-﻿using WebApplication1.Entities;
+﻿using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Data.Seeds
+namespace PermissionBasedTemplate.Data.Seeds
 {
 
     public static class DefaultPermissions
     {
-        public static async Task SeedAsync(ApplicationDbContext context)
+        public static async Task SeedAsync(ApplicationIdentityDbContext context)
         {
             if (!context.Permissions.Any())
             {

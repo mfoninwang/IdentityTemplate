@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace WebApplication1.Filters
+namespace PermissionBasedTemplate.Filters
 {
     //internal class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     //{

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
-using WebApplication1.Data;
-using WebApplication1.Entities;
+using PermissionBasedTemplate.Data;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Services
+namespace PermissionBasedTemplate.Services
 {
     public class ApplicationUserClaimsPrincipalFactory
         : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
@@ -67,7 +67,7 @@ namespace WebApplication1.Services
 
         private IEnumerable<string> GetUserPermissions(ClaimsIdentity identity)
         {
-            var db = _httpContext.HttpContext?.RequestServices.GetService<ApplicationDbContext>();
+            var db = _httpContext.HttpContext?.RequestServices.GetService<ApplicationIdentityDbContext>();
 
             var usersRoles = identity.Claims   
                 .Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value)

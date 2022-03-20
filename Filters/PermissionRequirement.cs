@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using WebApplication1.Data;
-using WebApplication1.Extenstions;
+using PermissionBasedTemplate.Data;
+using PermissionBasedTemplate.Extenstions;
 
-namespace WebApplication1.Filters
+namespace PermissionBasedTemplate.Filters
 {
     internal class PermissionRequirement : IAuthorizationRequirement
     {

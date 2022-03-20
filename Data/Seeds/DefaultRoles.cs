@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WebApplication1.Entities;
-using WebApplication1.Enums;
+using PermissionBasedTemplate.Enums;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Data.Seeds
+namespace PermissionBasedTemplate.Data.Seeds
 {
     public static class DefaultRoles
     {
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
+            if (roleManager.Roles.Any()) return;
+
             await roleManager.CreateAsync(new ApplicationRole
             {
                 Id = Roles.SuperAdmin.ToString(),

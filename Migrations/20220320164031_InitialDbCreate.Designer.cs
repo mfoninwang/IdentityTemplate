@@ -5,20 +5,21 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication1.Data;
+using PermissionBasedTemplate.Data;
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace PermissionBasedTemplate.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220313224432_RolePermission_2")]
-    partial class RolePermission_2
+    [DbContext(typeof(ApplicationIdentityDbContext))]
+    [Migration("20220320164031_InitialDbCreate")]
+    partial class InitialDbCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("Identity")
                 .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -46,7 +47,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaim", (string)null);
+                    b.ToTable("RoleClaim", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -71,7 +72,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaim", (string)null);
+                    b.ToTable("UserClaim", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -93,7 +94,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogIn", (string)null);
+                    b.ToTable("UserLogin", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -106,15 +107,17 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRole", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -123,14 +126,12 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LoginProvider", "UserId", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserToken", (string)null);
+                    b.ToTable("UserToken", "Identity");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationRole", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -147,15 +148,12 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<int?>("PermissionId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -164,12 +162,10 @@ namespace WebApplication1.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("Role", "Identity");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -192,10 +188,12 @@ namespace WebApplication1.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -243,10 +241,10 @@ namespace WebApplication1.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User", "Identity");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Permission", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -274,43 +272,28 @@ namespace WebApplication1.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("Permission", (string)null);
+                    b.ToTable("Permission", "Identity");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.RolePermission", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.RolePermission", b =>
                 {
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("PermissionId", "RoleId");
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RoleId");
+                    b.HasKey("RoleId", "PermissionId");
 
-                    b.ToTable("RolePermission", (string)null);
-                });
+                    b.HasIndex("PermissionId");
 
-            modelBuilder.Entity("WebApplication1.Models.UserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<string>");
-
-                    b.Property<string>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("RolePermission", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationRole", null)
-                        .WithMany()
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationRole", null)
+                        .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -318,7 +301,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser", null)
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationUser", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,8 +310,23 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser", null)
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationUser", null)
                         .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationRole", null)
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationUser", null)
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -336,29 +334,22 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationUser", null)
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationUser", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationRole", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.RolePermission", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Permission", null)
+                    b.HasOne("PermissionBasedTemplate.Identity.Permission", "Permission")
                         .WithMany("Roles")
-                        .HasForeignKey("PermissionId");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.RolePermission", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Permission", "Permission")
-                        .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.ApplicationRole", "Role")
+                    b.HasOne("PermissionBasedTemplate.Identity.ApplicationRole", "Role")
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -369,45 +360,16 @@ namespace WebApplication1.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.UserRole", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.ApplicationRole", b =>
                 {
-                    b.HasOne("WebApplication1.Models.ApplicationRole", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Claims");
 
-                    b.HasOne("WebApplication1.Models.ApplicationUser", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", null)
-                        .WithOne()
-                        .HasForeignKey("WebApplication1.Models.UserRole", "UserId", "RoleId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.ApplicationRole", b =>
-                {
                     b.Navigation("Permissions");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
 
@@ -418,7 +380,7 @@ namespace WebApplication1.Migrations
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Permission", b =>
+            modelBuilder.Entity("PermissionBasedTemplate.Identity.Permission", b =>
                 {
                     b.Navigation("Roles");
                 });

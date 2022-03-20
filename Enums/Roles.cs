@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Enums
+﻿namespace PermissionBasedTemplate.Enums
 {
     public enum Roles
     {

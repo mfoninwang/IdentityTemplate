@@ -12,9 +12,10 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using WebApplication1.Entities;
+using PermissionBasedTemplate.Entities;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Areas.Identity.Pages.Account
+namespace PermissionBasedTemplate.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel

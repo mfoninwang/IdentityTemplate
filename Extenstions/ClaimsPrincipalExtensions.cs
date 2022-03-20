@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace WebApplication1.Extenstions
+namespace PermissionBasedTemplate.Extenstions
 {
     public static class ClaimsPrincipalExtensions
     {

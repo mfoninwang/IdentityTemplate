@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-namespace WebApplication1.Extenstions
+namespace PermissionBasedTemplate.Extenstions
 {
     public static class IdentityExtensions
     {

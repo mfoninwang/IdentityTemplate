@@ -3,20 +3,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
-using WebApplication1.Entities;
-using WebApplication1.Filters;
+using PermissionBasedTemplate.Data;
+using PermissionBasedTemplate.Filters;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Areas.Admin.Controllers
+namespace PermissionBasedTemplate.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Policy = "PERMISSION.ROLE.LIST")]
     public class ApplicationRoleController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationIdentityDbContext _context;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationRoleController(ApplicationDbContext context, RoleManager<ApplicationRole> roleManager)
+        public ApplicationRoleController(ApplicationIdentityDbContext context, RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
             _roleManager = roleManager;

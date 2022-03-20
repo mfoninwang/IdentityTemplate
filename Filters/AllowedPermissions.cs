@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using WebApplication1.Data;
+using PermissionBasedTemplate.Data;
 
-namespace WebApplication1.Filters
+namespace PermissionBasedTemplate.Filters
 {
     public class AllowedPermissions : IDisposable
     {
-        private readonly ApplicationDbContext _context;
-        private readonly DbContextOptions<ApplicationDbContext> _contextOptions;
+        private readonly ApplicationIdentityDbContext _context;
+        private readonly DbContextOptions<ApplicationIdentityDbContext> _contextOptions;
 
-        public AllowedPermissions(ApplicationDbContext context)
+        public AllowedPermissions(ApplicationIdentityDbContext context)
         {
             _context = context;
         }
 
-        public AllowedPermissions(DbContextOptions<ApplicationDbContext> contextOptions)
+        public AllowedPermissions(DbContextOptions<ApplicationIdentityDbContext> contextOptions)
         {
             _contextOptions = contextOptions;
         }

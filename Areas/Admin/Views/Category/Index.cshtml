@@ -1,8 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authorization
-@using PermissionBasedTemplate.Filters
-@using PermissionBasedTemplate.Models
+@model IEnumerable<PermissionBasedTemplate.Entities.Category>
 @inject IAuthorizationService AuthorizationService
-@model IEnumerable<PermissionBasedTemplate.Identity.ApplicationRole>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -12,12 +11,12 @@
     <div class="card-header">
         <div id="actions" class="row">
             <div class="col-2">
-                <h4>Role List</h4>
+                <h4>Category List</h4>
             </div>
             <div class="col text-end">
-                @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.ROLE.CREATE")).Succeeded)
+                @if ((await AuthorizationService.AuthorizeAsync(User, "PERMISSION.CATEGORY.CREATE")).Succeeded)
                 {
-                    <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Role</a>
+                    <a class=" btn btn-primary btn-sm" asp-action="Create">Add New Category</a>
                 }
             </div>
         </div>
@@ -29,9 +28,6 @@
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NormalizedName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CreateDate)
@@ -47,16 +43,12 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.NormalizedName)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.CreateDate)
                         </td>
 
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                         </td>
                     </tr>
                 }

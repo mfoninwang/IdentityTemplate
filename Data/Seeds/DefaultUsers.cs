@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using WebApplication1.Entities;
-using WebApplication1.Enums;
+using PermissionBasedTemplate.Entities;
+using PermissionBasedTemplate.Enums;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Data.Seeds
+namespace PermissionBasedTemplate.Data.Seeds
 {
     public static class DefaultUsers
     {

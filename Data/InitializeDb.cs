@@ -1,4 +1,4 @@
-﻿namespace WebApplication1.Data
+﻿namespace PermissionBasedTemplate.Data
 {
     public static class InitializeDb
     {

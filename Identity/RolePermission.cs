@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication1.Entities
+namespace PermissionBasedTemplate.Identity
 {
     public class RolePermission
     {

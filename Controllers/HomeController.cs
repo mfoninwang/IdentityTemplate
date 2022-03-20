@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApplication1.Models;
+using PermissionBasedTemplate.Models;
 
-namespace WebApplication1.Controllers
+namespace PermissionBasedTemplate.Controllers
 {
     [AllowAnonymous]
     public class HomeController : Controller

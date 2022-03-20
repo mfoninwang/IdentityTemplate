@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using WebApplication1.Extenstions;
+using PermissionBasedTemplate.Extenstions;
 
-namespace WebApplication1.Filters
+namespace PermissionBasedTemplate.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class PermissionAttribute : AuthorizeAttribute, IAuthorizationFilter

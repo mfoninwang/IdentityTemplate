@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using WebApplication1.Models;
+using PermissionBasedTemplate.Models;
 
-namespace WebApplication1.Entities
+namespace PermissionBasedTemplate.Identity
 {
     public class ApplicationRole : IdentityRole<string>
     {
@@ -14,9 +14,12 @@ namespace WebApplication1.Entities
         [Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public virtual ICollection<UserRole>? Users { get; set; }
+        public virtual ICollection<IdentityUserRole<string>>? Users { get; set; }
 
         public virtual ICollection<RolePermission>? Permissions { get; set; }
+
+        public virtual ICollection<IdentityRoleClaim<string>>? Claims { get; set; }
+
 
     }
 }

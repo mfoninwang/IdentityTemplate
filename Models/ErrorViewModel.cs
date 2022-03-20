@@ -1,4 +1,4 @@
-namespace WebApplication1.Models
+namespace PermissionBasedTemplate.Models
 {
     public class ErrorViewModel
     {

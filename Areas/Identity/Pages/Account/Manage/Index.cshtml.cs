@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using WebApplication1.Entities;
+using PermissionBasedTemplate.Entities;
+using PermissionBasedTemplate.Identity;
 
-namespace WebApplication1.Areas.Identity.Pages.Account.Manage
+namespace PermissionBasedTemplate.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {

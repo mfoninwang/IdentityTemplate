@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
-namespace WebApplication1.Filters
+namespace PermissionBasedTemplate.Filters
 {
     public class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {
