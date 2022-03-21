@@ -12,8 +12,8 @@ using PermissionBasedTemplate.Data;
 namespace PermissionBasedTemplate.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220320165018_CategoryDbCreate")]
-    partial class CategoryDbCreate
+    [Migration("20220321153831_CoreTablesCreation")]
+    partial class CoreTablesCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

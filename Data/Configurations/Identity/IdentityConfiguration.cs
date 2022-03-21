@@ -49,13 +49,17 @@ namespace PermissionBasedTemplate.Data.Configurations.Identity
 
             // Limit the size of columns to use efficient database types
             builder.Property(u => u.Name).HasMaxLength(50);
+            builder.Property(u => u.Code).HasMaxLength(50);
 
-            // Each Role can have many entries in the UserRole join table
+            builder.HasIndex(x=>x.Code).IsUnique(); // unique index on the code column
+
+            // Each Role can have many entries in the UserRole
             builder.HasMany(e => e.Users)
                 .WithOne()
                 .HasForeignKey(r => r.RoleId)
                 .IsRequired();
 
+            // Each role can have multiple claims
             builder.HasMany(e => e.Claims)
                 .WithOne()
                 .HasForeignKey(c => c.RoleId)
@@ -63,43 +67,47 @@ namespace PermissionBasedTemplate.Data.Configurations.Identity
         }
     }
 
-    internal class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
+    internal class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserRole<Guid>> builder)
         {
             builder.ToTable("UserRole");
+
+            builder.HasKey("UserId", "RoleId");
         }
     }
 
-    internal class ApplicationRoleClaimConfiguration : IEntityTypeConfiguration<IdentityRoleClaim<string>>
+    internal class ApplicationRoleClaimConfiguration : IEntityTypeConfiguration<IdentityRoleClaim<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityRoleClaim<string>> builder)
+        public void Configure(EntityTypeBuilder<IdentityRoleClaim<Guid>> builder)
         {
             builder.ToTable("RoleClaim");
         }
     }
 
-    internal class ApplicationUserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<string>>
+    internal class ApplicationUserClaimConfiguration : IEntityTypeConfiguration<IdentityUserClaim<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityUserClaim<string>> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserClaim<Guid>> builder)
         {
             builder.ToTable("UserClaim");
         }
     }
 
-    internal class ApplicationUserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin<string>>
+    internal class ApplicationUserLoginConfiguration : IEntityTypeConfiguration<IdentityUserLogin<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityUserLogin<string>> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserLogin<Guid>> builder)
         {
+            builder.HasKey("LoginProvider", "ProviderKey", "UserId");
             builder.ToTable("UserLogin");
         }
     }
 
-    internal class ApplicationUserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken<string>>
+    internal class ApplicationUserTokenConfiguration : IEntityTypeConfiguration<IdentityUserToken<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityUserToken<string>> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
         {
             builder.ToTable("UserToken");
+            builder.HasKey("UserId", "LoginProvider", "Name");
         }
     }
 
@@ -110,6 +118,7 @@ namespace PermissionBasedTemplate.Data.Configurations.Identity
             builder.ToTable("Permission");
 
             builder.HasIndex(c => c.Code).IsUnique();
+
             builder.HasMany(e => e.Roles)
             .WithOne(p => p.Permission)
             .HasForeignKey(ur => ur.PermissionId)

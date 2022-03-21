@@ -38,7 +38,7 @@ namespace PermissionBasedTemplate.Areas.Admin.Controllers
             }
 
             var applicationRole = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id.ToString() == id);
             if (applicationRole == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace PermissionBasedTemplate.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("CreateDate,Id,Name,NormalizedName,ConcurrencyStamp")] ApplicationRole applicationRole)
         {
-            if (id != applicationRole.Id)
+            if (id.ToString() != applicationRole.Id.ToString())
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace PermissionBasedTemplate.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ApplicationRoleExists(applicationRole.Id))
+                    if (!ApplicationRoleExists(applicationRole.Id.ToString()))
                     {
                         return NotFound();
                     }
@@ -119,7 +119,7 @@ namespace PermissionBasedTemplate.Areas.Admin.Controllers
 
         private bool ApplicationRoleExists(string id)
         {
-            return _context.Roles.Any(e => e.Id == id);
+            return _context.Roles.Any(e => e.Id.ToString() == id);
         }
     }
 }

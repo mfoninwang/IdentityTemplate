@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PermissionBasedTemplate.Data.Configurations;
 using PermissionBasedTemplate.Identity;
@@ -6,7 +7,14 @@ using System.Reflection;
 
 namespace PermissionBasedTemplate.Data
 {
-    public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationIdentityDbContext 
+        : IdentityDbContext<ApplicationUser,
+            ApplicationRole, Guid, 
+            IdentityUserClaim<Guid>,
+            IdentityUserRole<Guid>,
+            IdentityUserLogin<Guid>, 
+            IdentityRoleClaim<Guid>, 
+            IdentityUserToken<Guid>>
     {
         public ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options)
             : base(options)

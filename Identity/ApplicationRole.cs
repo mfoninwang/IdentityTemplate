@@ -4,7 +4,7 @@ using PermissionBasedTemplate.Models;
 
 namespace PermissionBasedTemplate.Identity
 {
-    public class ApplicationRole : IdentityRole<string>
+    public class ApplicationRole : IdentityRole<Guid>
     {
         public string? Code { get; set; }
 
@@ -14,11 +14,11 @@ namespace PermissionBasedTemplate.Identity
         [Display(Name = "Create Date")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        public virtual ICollection<IdentityUserRole<string>>? Users { get; set; }
+        public virtual ICollection<IdentityUserRole<Guid>>? Users { get; set; }
 
         public virtual ICollection<RolePermission>? Permissions { get; set; }
 
-        public virtual ICollection<IdentityRoleClaim<string>>? Claims { get; set; }
+        public virtual ICollection<IdentityRoleClaim<Guid>>? Claims { get; set; }
 
 
     }

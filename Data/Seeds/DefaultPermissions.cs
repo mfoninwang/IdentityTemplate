@@ -7,17 +7,19 @@ namespace PermissionBasedTemplate.Data.Seeds
     {
         public static async Task SeedAsync(ApplicationIdentityDbContext context)
         {
-            if (!context.Permissions.Any())
-            {
-                List<Permission> permissions = new()
-                {
-                    new Permission() { Name = "ROLE.VIEW", Code = "ROLE.VIEW", Entity = "ROLE" },
-                    new Permission() { Name = "ROLE.CREATE", Code = "ROLE.CREATE", Entity = "ROLE" }
-                };
+            var arrPermissions = new string[] { "ROLE.VIEW", "ROLE.CREATE" };
+            List<Permission> permissions = new();
 
-                await context.Permissions.AddRangeAsync(permissions);
-                await context.SaveChangesAsync();
+            foreach (var item in arrPermissions)
+            {
+                if (!context.Permissions.Any(p => p.Code == item))
+                {
+                    permissions.Add(new Permission() { Name = item, Code = item, Entity = "ROLE" });
+                }
             }
+            await context.Permissions.AddRangeAsync(permissions);
+            await context.SaveChangesAsync();
+
         }
     }
 }

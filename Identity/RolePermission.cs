@@ -4,10 +4,10 @@ namespace PermissionBasedTemplate.Identity
 {
     public class RolePermission
     {
-        //[ForeignKey("Role")]
-        public string RoleId { get; set; }
+        [ForeignKey("Role")]
+        public Guid RoleId { get; set; }
 
-        //[ForeignKey("Permission")]
+        [ForeignKey("Permission")]
         public int PermissionId { get; set; }
 
         public virtual ApplicationRole Role { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PermissionBasedTemplate.Migrations.ApplicationDb
 {
-    public partial class CategoryDbCreate : Migration
+    public partial class CoreTablesCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

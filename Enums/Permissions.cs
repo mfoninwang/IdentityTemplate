@@ -2,25 +2,38 @@
 
 namespace PermissionBasedTemplate.Enums
 {
-    public enum PermissionsEnum : short
+
+    public enum ApplicationPermissions : short
     {
-        [Display(GroupName = "ApplicationRole", Name = "View")] RoleView,
-        [Display(GroupName = "ApplicationRole", Name = "Create")] RoleCreate,
-        [Display(GroupName = "ApplicationRole", Name = "Approve Level 1")] RoleApproveLevel1,
-        [Display(GroupName = "ApplicationRole", Name = "Approve Level 2")] RoleApproveLevel2,
+        [Display(GroupName = "Role", Name = "View")]
+        RoleView,
 
-        [Display(GroupName = "User", Name = "View")] ViewUser,
-        [Display(GroupName = "User", Name = "Create")] CreateUser,
-        [Display(GroupName = "User", Name = "Approve Level 1")] ApproveUserLevel1,
-        [Display(GroupName = "User", Name = "Approve Level 2")] ApproveUserLevel2
+        [Display(GroupName = "Role", Name = "Create")]
+        RoleCreate,
 
+        [Display(GroupName = "Role", Name = "Approve Level 1")]
+        RoleApproveLevel1,
+
+        [Display(GroupName = "Role", Name = "Approve Level 2")]
+        RoleApproveLevel2,
+
+        [Display(GroupName = "User", Name = "View")]
+        UserView,
+
+        [Display(GroupName = "User", Name = "Create")]
+        UserCreate,
+
+        [Display(GroupName = "User", Name = "Approve Level 1")]
+        ApproveUserLevel1,
+
+        [Display(GroupName = "User", Name = "Approve Level 2")]
+        ApproveUserLevel2
     }
 
-    public class PermissionTest
+    public class Test
     {
-        public void Test()
+        public Test()
         {
-            
         }
     }
 }

@@ -14,7 +14,7 @@ namespace PermissionBasedTemplate.Filters
             Permission = permission;
         }
 
-        public async void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.User;
 
@@ -23,8 +23,8 @@ namespace PermissionBasedTemplate.Filters
             bool hasPermission = user.HasClaim(x => x.Type == "Permission" &&
                x.Value == this.Permission && x.Issuer == "LOCAL AUTHORITY");
 
-            if (hasPermission) return; 
-            
+            if (hasPermission) return;
+
             context.Result = new UnauthorizedResult();
             return;
         }

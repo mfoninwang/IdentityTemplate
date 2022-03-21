@@ -5,7 +5,7 @@ namespace PermissionBasedTemplate.Identity
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
     [Table("User")]
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public string? LastName { get; set; }
 
@@ -20,15 +20,13 @@ namespace PermissionBasedTemplate.Identity
             }
         }
 
-        public string? TaxOffice { get; set; }
-
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
         // Navigation Properties
-        public virtual ICollection<IdentityUserRole<string>>? Roles { get; set; }
-        public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; }
-        public virtual ICollection<IdentityUserLogin<string>>? Logins { get; set; }
-        public virtual ICollection<IdentityUserToken<string>>? Tokens { get; set; }
+        public virtual ICollection<IdentityUserRole<Guid>>? Roles { get; set; }
+        public virtual ICollection<IdentityUserClaim<Guid>>? Claims { get; set; }
+        public virtual ICollection<IdentityUserLogin<Guid>>? Logins { get; set; }
+        public virtual ICollection<IdentityUserToken<Guid>>? Tokens { get; set; }
     }
 
 }

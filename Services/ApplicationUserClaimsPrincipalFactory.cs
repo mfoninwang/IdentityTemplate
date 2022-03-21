@@ -73,8 +73,11 @@ namespace PermissionBasedTemplate.Services
                 .Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value)
                 .ToList();
 
+            List<RolePermission> rolePermissions = db.RolePermissions.ToList();
+
             IEnumerable<string> permissions = (from p in db.RolePermissions
-                                               where usersRoles.Contains(p.RoleId)
+                                               where usersRoles.Contains(p.Role.Name)
+
                                                select p.Permission.Code).Distinct().ToList();
             return permissions;
         }

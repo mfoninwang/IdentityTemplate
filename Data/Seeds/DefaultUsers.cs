@@ -49,7 +49,7 @@ namespace PermissionBasedTemplate.Data.Seeds
                     await userManager.CreateAsync(defaultUser, "Iniobong123$!");
                     await userManager.AddToRoleAsync(defaultUser, Roles.Basic.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.SuperAdmin.ToString());
+                    await userManager.AddToRoleAsync(defaultUser,"Super Admin");
                 }
                 //await roleManager.SeedClaimsForSuperAdmin();
             }
